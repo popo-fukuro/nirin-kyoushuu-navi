@@ -1,0 +1,12 @@
+# 秘密情報（絶対に GitHub に上げないもの）
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+# パソコン固有のもの
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

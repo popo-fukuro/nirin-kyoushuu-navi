@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>二輪教習ナビ</title>
+<meta name="description" content="普通二輪の教習でやる8項目を、タップひとつで「やること・コツ・予習動画1本」に。登録・インストール不要。">
+<meta property="og:title" content="二輪教習ナビ">
+<meta property="og:description" content="普通二輪の教習でやる8項目を、タップひとつで「やること・コツ・予習動画1本」に。登録・インストール不要。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://popo-fukuro.github.io/nirin-kyoushuu-navi/">
+<meta property="og:site_name" content="二輪教習ナビ">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#f6f5f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
+<style>
+:root{
+  --bg:#f6f5f2; --card:#ffffff; --text:#1d1d1f; --sub:#5f6368; --line:#e3e1dc;
+  --accent:#c2410c; --accent-weak:#fff1e8; --ok:#2b8a3e; --ok-weak:#e9f7ec;
+  --warn-bg:#fff8db; --warn-line:#f0c419; --warn-text:#5c4400;
+  --on-accent:#ffffff; --on-ok:#ffffff; color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141414; --card:#1f1f1f; --text:#f1f1f1; --sub:#a8a8a8; --line:#333;
+    --accent:#ff8a4c; --accent-weak:#3a2416; --ok:#69db7c; --ok-weak:#1c3322;
+    --warn-bg:#2f2810; --warn-line:#b8930f; --warn-text:#f5e3a0;
+    --on-accent:#141414; --on-ok:#141414; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141414; --card:#1f1f1f; --text:#f1f1f1; --sub:#a8a8a8; --line:#333;
+  --accent:#ff8a4c; --accent-weak:#3a2416; --ok:#69db7c; --ok-weak:#1c3322;
+  --warn-bg:#2f2810; --warn-line:#b8930f; --warn-text:#f5e3a0;
+  --on-accent:#141414; --on-ok:#141414; color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.65;-webkit-text-size-adjust:100%}
+.wrap{max-width:560px;margin:0 auto;padding:16px 16px 48px}
+header h1{font-size:1.4rem;margin:4px 0 2px}
+header p{margin:0;color:var(--sub);font-size:.9rem}
+.safety{margin:14px 0;padding:10px 14px;border:2px solid var(--warn-line);background:var(--warn-bg);color:var(--warn-text);border-radius:12px;font-size:.88rem}
+.safety strong{display:block;font-size:.95rem}
+.safety ul{margin:4px 0 0;padding-left:1.2em}
+.progress{display:flex;align-items:center;gap:10px;margin:12px 0 4px;font-size:.88rem;color:var(--sub)}
+.bar{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.next{all:unset;box-sizing:border-box;display:block;width:100%;margin:8px 0 14px;padding:10px 14px;border-radius:12px;background:var(--accent-weak);font-size:.92rem;cursor:pointer}
+.next:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.next b{color:var(--accent)}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:12px}
+.item>button{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;cursor:pointer;min-height:56px}
+.item>button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:12px}
+.num{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:.85rem;font-weight:700;background:var(--line);color:var(--text)}
+.item.done .num{background:var(--ok);color:var(--on-ok)}
+.ttl{flex:1;font-weight:700;font-size:1.02rem}
+.ttl small{display:block;font-weight:normal;color:var(--sub);font-size:.8rem}
+.chev{color:var(--sub);transition:transform .2s}
+.item.open .chev{transform:rotate(90deg)}
+.item.open{border-color:var(--accent)}
+.detail{display:none;padding:0 14px 14px;border-top:1px dashed var(--line)}
+.item.open .detail{display:block}
+.row{margin-top:10px}
+.lbl{font-size:.75rem;font-weight:700;color:var(--accent);letter-spacing:.04em}
+.row p{margin:2px 0 0}
+.tip{background:var(--accent-weak);border-radius:8px;padding:6px 10px}
+.video{display:block;margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--accent);color:var(--on-accent);text-decoration:none}
+.video b{display:block;font-size:1rem}
+.video span{display:block;font-size:.8rem;opacity:.92;margin-top:2px}
+.video:focus-visible{outline:3px solid var(--text);outline-offset:2px}
+.meta{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;font-size:.78rem;color:var(--sub)}
+.meta a{color:var(--sub);display:inline-block;padding:6px 2px}
+.check{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:99px;font-size:.85rem;color:var(--text)}
+.check:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.item.done .check{background:var(--ok-weak);border-color:var(--ok);color:var(--ok)}
+.src{margin-top:28px;font-size:.84rem;color:var(--sub)}
+.src h2{color:var(--text);font-size:1rem;margin:0 0 6px}
+.src ol{padding-left:1.6em}
+.src summary{cursor:pointer;color:var(--accent);padding:12px 0}
+.src li:target{background:var(--accent-weak);border-radius:8px}
+.src li{margin-bottom:6px;overflow-wrap:anywhere}
+.src a{color:var(--accent)}
+footer{margin-top:24px;font-size:.8rem;color:var(--sub)}
+footer button{all:unset;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;font-size:.85rem;padding:0 14px;border:1px solid var(--line);border-radius:8px;color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>二輪教習ナビ</h1>
+    <p>普通免許を持っている人の、普通二輪（MT）の教習を予習。項目をタップすると「やること・コツ・予習動画」が出るよ。</p>
+  </header>
+
+  <div class="safety" role="note" aria-label="安全の注意">
+    <strong>⚠ 先に読んでね</strong>
+    <ul>
+      <li><b>教習所の指導員の指示がいちばん優先。</b>このページと違うことを言われたら、指導員の言うとおりにしてね。</li>
+      <li>これは<b>予習の目安</b>で、運転の指導ではないよ。公式の情報でもない。やる順番や基準は教習所によって違うことがある。</li>
+      <li>練習は<b>教習所のコースで、指導員がいるときだけ</b>。このページや動画を見て、教習所の外や公道でまねしないでね。</li>
+    </ul>
+  </div>
+
+  <div class="progress"><span id="progText">予習した 0 / 8</span><div class="bar"><i id="progBar"></i></div></div>
+  <button class="next" id="nextBox" type="button"></button>
+
+  <ul class="list" id="list"></ul>
+
+  <section class="src" id="sources">
+    <h2>出典と確認日</h2>
+    <p id="srcNote"></p>
+    <details><summary>出典の一覧（<span id="srcCount">0</span>件）を開く</summary><ol id="srcList"></ol></details>
+    <p>予習動画は YouTube にある、ほかの人が作った動画へのリンクだよ。その項目のやり方を解説している動画のうち、調べた範囲で再生回数がいちばん多かったものを選んだ（2026-10-04 時点）。動画の内容は制作者のもので、教習所の教え方と違うこともあるよ。</p>
+  </section>
+
+  <footer>
+    <p>「予習した」のチェックは、この端末（ブラウザ）の中だけに保存されるよ。ほかの人には送られない。</p>
+    <button id="resetBtn" type="button">チェックを全部消す</button>
+    <p>© 2026 popo-fukuro</p>
+  </footer>
+</div>
+
+<script>
+// ===== 出典（照らし合わせたページ） =====
+const SOURCES = [
+  {name:"警察庁「運転免許技能試験に係る採点基準の運用の標準について（通達）」令和5年3月30日", url:"https://www.npa.go.jp/laws/notification/koutuu/menkyo/menkyo20230330_44.pdf"},
+  {name:"富山県警察「運転免許技能試験実施基準」", url:"https://police.pref.toyama.jp/documents/2477/zissikizyun.pdf"},
+  {name:"タンデムスタイル 実技教習攻略「引き起こし」", url:"https://www.tandem-style.com/beginner/hints-and-tips-for-upright/"},
+  {name:"タンデムスタイル 実技教習攻略「取りまわし」", url:"https://www.tandem-style.com/beginner/hints-and-tips-for-move/"},
+  {name:"ロイヤルドライビングスクール広島「引き起こしのコツ」", url:"https://www.royal-corp.com/dsh/nirin_hikiokoshi/"},
+  {name:"タンデムスタイル 実技教習攻略「発進＆停止」", url:"https://www.tandem-style.com/beginner/hints-and-tips-for-start-stop/"},
+  {name:"二りんかん ライダーズアカデミー「バイクの正しい止まり方」", url:"https://2rinkan.jp/ridersacademy/archives/1275/"},
+  {name:"ヤマハ発動機 バイクブログ「バイクってどうやって操作しているの？」", url:"https://www.yamaha-motor.co.jp/mc/yamaha-motor-life/2016/04/20160408-002.html"},
+  {name:"タンデムスタイル「シフトアップ・シフトダウン」", url:"https://www.tandem-style.com/beginner/basic-operation-shift-up-down/"},
+  {name:"タンデムスタイル 実技教習攻略「坂道発進」", url:"https://www.tandem-style.com/beginner/hints-and-tips-for-hill-start/"},
+  {name:"資格の窓「普通自動二輪免許取得、坂道発進のコツ」", url:"https://seasonwindow.com/slope-training/"},
+  {name:"タンデムスタイル 実技教習攻略「S字コース」", url:"https://www.tandem-style.com/beginner/hints-and-tips-for-s-shaped/"},
+  {name:"タンデムスタイル 実技教習攻略「クランク」", url:"https://www.tandem-style.com/beginner/hints-and-tips-for-crank/"},
+  {name:"ロイヤルドライビングスクール広島「クランクのコツ」", url:"https://www.royal-corp.com/dsh/crank/"},
+  {name:"タンデムスタイル 実技教習攻略「一本橋」", url:"https://www.tandem-style.com/beginner/hints-and-tips-for-balance-beam/"},
+  {name:"ロイヤルドライビングスクール広島「一本橋のコツ」", url:"https://www.royal-corp.com/dsh/log_bridge/"},
+  {name:"タンデムスタイル 実技教習攻略「スラローム」", url:"https://www.tandem-style.com/beginner/hints-and-tips-for-slalom/"},
+  {name:"ロイヤルドライビングスクール広島「スラロームのコツ」", url:"https://www.royal-corp.com/dsh/slalom/"},
+  {name:"タンデムスタイル 実技教習攻略「急制動」", url:"https://www.tandem-style.com/beginner/hints-and-tips-for-sudden-braking/"}
+];
+const CHECKED = "2026-10-04"; // 確認した日
+
+// ===== 8項目（だいたい教習でやる順） =====
+const ITEMS = [
+  {id:"handling", t:"引き起こし・取り回し", sub:"倒れたバイクを起こす・押して歩く",
+   what:"倒れたバイクを起こす「引き起こし」と、エンジンを切って押して歩く「取り回し」を練習する。教習のいちばん最初にやることが多いよ。",
+   tip:"腕で持ち上げない。胸をシートに当てて体をくっつけ、足の力で前へ押し出すように起こす。",
+   video:{id:"JGbBVM_3ZeQ", title:"倒れた白バイの起こし方～白バイ隊員が教えるちょっとしたコツ", ch:"BDSバイクセンサー", len:"17分"}, src:[3,4,5]},
+  {id:"start", t:"発進・停止", sub:"半クラッチとブレーキ",
+   what:"クラッチを少しずつつなぐ「半クラッチ」で動き出し、前後のブレーキで止まる。止まったら左足を地面に着く。",
+   tip:"止まるときは前後のブレーキを同時に、じわっと。止まる直前にクラッチを切る。",
+   video:{id:"7FbJN6aHBRk", title:"分かりやすい！４分で分かる！バイクの発進停止", ch:"つばめ中央自動車学校", len:"4分"}, src:[6,7]},
+  {id:"shift", t:"変速（ギアチェンジ）", sub:"左足でギアを変える",
+   what:"左足のペダルでギアを変える。1速は踏み下げて、2速から上はつま先でかき上げる（ニュートラルは1速と2速のあいだ）。クルマのAT限定の人は、ここが最初の山。",
+   tip:"「クラッチを切る → ギアを変える → じわっとつなぐ」をひと呼吸で。",
+   video:{id:"djr8v5gDayo", title:"バイクのギアチェンジのやり方とスムーズになるコツ【教官が教える】", ch:"マッスルバイクちゃんねる", len:"12分"}, src:[8,9]},
+  {id:"slope", t:"坂道発進", sub:"下がらずに上る",
+   what:"上り坂の途中でいったん止まり、後ろを目で確認してから、後ろに下がらずに発進する。",
+   tip:"後輪ブレーキで止めたまま半クラッチ → アクセル。前に出る感じがしたらブレーキを離す。",
+   video:{id:"u66WjqRKyQs", title:"【超簡単】坂道発進が楽勝になる方法教えます", ch:"マッスルバイクちゃんねる", len:"10分"}, src:[2,10,11]},
+  {id:"crank", t:"S字・クランク", sub:"せまい道をゆっくり曲がる",
+   what:"S字はくねくね曲がった道で、車体を傾けて曲がる。クランクは直角に曲がる幅2mほどのせまい道で、車体をあまり傾けずハンドルで曲がる。どちらもパイロンや縁石にふれずに抜ける。",
+   tip:"曲がる先へ、顔ごと先に向ける。速さは半クラッチと後輪ブレーキで調整。",
+   video:{id:"n0AC8PqbFQs", title:"分かりやすい！５分で分かる！クランク解説", ch:"つばめ中央自動車学校", len:"5分", part:"クランク編"}, src:[12,13,14]},
+  {id:"bridge", t:"一本橋", sub:"細い台をゆっくり渡る",
+   what:"幅30cm・長さ15mの細い台を、落ちずにゆっくり渡る。普通二輪の検定では、7秒以上かけて渡るのが目安。",
+   tip:"足元ではなく、橋の終わりのずっと先を見る。",
+   video:{id:"PT7fsFycuEw", title:"一本橋で絶対に落ちないための5つのコツ!卒検はこれでクリア!", ch:"マッスルバイクちゃんねる", len:"10分"}, src:[1,2,15,16]},
+  {id:"slalom", t:"スラローム", sub:"パイロンの間をジグザグに",
+   what:"等間隔に並んだパイロンの間を、ジグザグに抜ける。普通二輪の検定では、8秒以内で抜けるのが目安。",
+   tip:"倒すときはアクセルを戻し、起こすときに開ける。このリズムで曲がる。",
+   video:{id:"1evoUnS92II", title:"【永久保存版】バイクスラローム！3つのコツを押さえるだけで劇的に上手くなる！", ch:"月の輪自動車教習所公式チャンネル", len:"14分"}, src:[1,2,17,18]},
+  {id:"brake", t:"急制動", sub:"短い距離でしっかり止まる",
+   what:"時速40kmまで加速し、決められた場所でブレーキをかけて、短い距離で止まる（検定では、乾いた路面なら11m以内、濡れた路面なら14m以内）。",
+   tip:"前を見たまま、前後のブレーキを同時に。前を強めに、タイヤをロックさせない（すべらせない）ように。強さの加減は指導員に教わったとおりに。",
+   video:{id:"_7emFDp6MdI", title:"【転倒しない】急制動で失敗しないためのコツ【加速が楽勝】", ch:"マッスルバイクちゃんねる", len:"10分"}, src:[2,7,19]}
+];
+
+// ===== 保存（この端末の中だけ） =====
+const KEY = "bike-license-prep-v1";
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(d){ try{ localStorage.setItem(KEY, JSON.stringify(d)); }catch(e){} }
+let done = load();
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function render(){
+  const openId = (document.querySelector(".item.open") || {}).dataset?.id;
+  $("#list").innerHTML = ITEMS.map((it, i) => {
+    const d = !!done[it.id];
+    const srcText = it.src.length
+      ? "出典 " + it.src.map(n => `<a href="#src-${n}">[${n}]</a>`).join(" ") + "・確認日 " + esc(CHECKED)
+      : "出典：確認中";
+    return `
+    <li class="item${d ? " done" : ""}" id="item-${it.id}" data-id="${it.id}">
+      <button type="button" class="head" aria-expanded="false" aria-controls="d-${it.id}">
+        <span class="num">${d ? "✓" : i + 1}</span>
+        <span class="ttl">${esc(it.t)}<small>${esc(it.sub)}</small></span>
+        <span class="chev" aria-hidden="true">›</span>
+      </button>
+      <div class="detail" id="d-${it.id}">
+        <div class="row"><div class="lbl">やること</div><p>${esc(it.what)}</p></div>
+        <div class="row"><div class="lbl">コツ</div><p class="tip">${esc(it.tip)}</p></div>
+        <a class="video" href="https://www.youtube.com/watch?v=${esc(it.video.id)}" target="_blank" rel="noopener">
+          <b>▶ 予習動画を見る（${it.video.part ? esc(it.video.part) + "・" : ""}${esc(it.video.len)}）</b>
+          <span>${esc(it.video.title)}／${esc(it.video.ch)}</span>
+        </a>
+        <div class="meta">
+          <span>${srcText}</span>
+          <button type="button" class="check" data-check="${it.id}" aria-pressed="${d}">${d ? "✓ 予習した" : "予習したらチェック"}</button>
+        </div>
+      </div>
+    </li>`;
+  }).join("");
+  if (openId) open(openId, false);
+
+  const c = ITEMS.filter(i => done[i.id]).length;
+  $("#progText").textContent = `予習した ${c} / ${ITEMS.length}`;
+  $("#progBar").style.width = (c / ITEMS.length * 100) + "%";
+  const nx = ITEMS.find(i => !done[i.id]);
+  const box = $("#nextBox");
+  if (nx) {
+    box.innerHTML = `次に予習するなら → <b>${esc(nx.t)}</b>（タップで開く）`;
+    box.dataset.target = nx.id;
+    box.disabled = false;
+  } else {
+    box.textContent = "8項目ぜんぶ予習した！教習がんばってね。";
+    box.dataset.target = "";
+    box.disabled = true;
+  }
+}
+
+function open(id, scroll){
+  document.querySelectorAll(".item.open").forEach(el => {
+    el.classList.remove("open");
+    el.querySelector(".head").setAttribute("aria-expanded", "false");
+  });
+  const el = document.getElementById("item-" + id);
+  if (!el) return;
+  el.classList.add("open");
+  el.querySelector(".head").setAttribute("aria-expanded", "true");
+  // 動画ボタンが画面の下で切れるときは、項目を画面の上まで動かす
+  const v = el.querySelector(".video");
+  if (scroll || v.getBoundingClientRect().bottom > window.innerHeight) el.scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+$("#list").addEventListener("click", e => {
+  const ck = e.target.closest("[data-check]");
+  if (ck) {
+    const id = ck.dataset.check;
+    if (done[id]) delete done[id]; else done[id] = true;
+    save(done); render();
+    return;
+  }
+  const head = e.target.closest(".head");
+  if (head) {
+    const el = head.closest(".item");
+    if (el.classList.contains("open")) {
+      el.classList.remove("open");
+      head.setAttribute("aria-expanded", "false");
+    } else open(el.dataset.id, false);
+  }
+});
+$("#nextBox").addEventListener("click", () => {
+  const id = $("#nextBox").dataset.target;
+  if (id) open(id, true);
+});
+$("#resetBtn").addEventListener("click", () => {
+  if (!Object.keys(done).length) return;
+  if (confirm("「予習した」のチェックを全部消す？")) { done = {}; save(done); render(); }
+});
+
+// 出典の番号を押したら、一覧を開く
+document.addEventListener("click", e => {
+  if (e.target.closest('a[href^="#src-"]')) $(".src details").open = true;
+});
+
+// 出典リスト
+if (SOURCES.length) {
+  $("#srcNote").innerHTML = `各項目の内容は、下の情報源のうち<b>2つ以上</b>と照らし合わせたよ（各項目の下に番号）。確認日：<b>${esc(CHECKED)}</b>`;
+  $("#srcList").innerHTML = SOURCES.map((s, i) =>
+    `<li id="src-${i + 1}">${esc(s.name)}<br><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></li>`
+  ).join("");
+  $("#srcCount").textContent = SOURCES.length;
+} else {
+  $("#srcNote").textContent = "いま、各項目の内容を2つ以上の情報源と照らし合わせているところ。終わったらここに出典と確認日を書くよ。";
+}
+
+render();
+</script>
+</body>
+</html>
